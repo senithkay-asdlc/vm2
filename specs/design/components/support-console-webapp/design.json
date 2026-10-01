@@ -7,11 +7,52 @@
   "appPath": "support-console-webapp",
   "entrypoint": "deployment/web-application",
   "exposure": "internet",
-  "dependencies": [
-    { "kind": "component", "name": "ticket-api", "description": "Lists and filters the ticket queue, reads ticket detail, edits drafts, approves and resolves tickets." },
-    { "kind": "platform-resource", "name": "agent-auth", "resourceType": "thunder-app" }
+  "stories": [
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8
   ],
   "description": "Signed-in Support Agent console: a prioritized, filterable ticket queue and a ticket detail view where an agent reviews the AI-classified urgency and AI-drafted reply, edits it, approves it, and marks the ticket resolved after sending the reply themselves outside the system. Does not send replies to customers and does not manage agents or teams.",
-  "stories": [2, 3, 4, 5, 6, 7, 8],
-  "skillsPinned": ["wireframes", "react-webapp", "oxygen-ui-design-system", "thunder-authentication"]
+  "dependencies": [
+    {
+      "kind": "component",
+      "name": "ticket-api",
+      "description": "Lists and filters the ticket queue, reads ticket detail, edits drafts, approves and resolves tickets.",
+      "wiring": {
+        "endpoint": {
+          "component": "vm2-ticket-api",
+          "name": "http",
+          "visibility": "project",
+          "envBindings": {
+            "address": "TICKET_API_URL"
+          }
+        }
+      }
+    },
+    {
+      "kind": "platform-resource",
+      "name": "agent-auth",
+      "resourceType": "thunder-app",
+      "wiring": {
+        "ref": "vm2-agent-auth",
+        "envBindings": {
+          "client_id": "AGENT_AUTH_CLIENT_ID",
+          "issuer": "AGENT_AUTH_ISSUER",
+          "jwks_url": "AGENT_AUTH_JWKS_URL",
+          "resource": "AGENT_AUTH_RESOURCE",
+          "scopes": "AGENT_AUTH_SCOPES"
+        }
+      }
+    }
+  ],
+  "skillsPinned": [
+    "wireframes",
+    "react-webapp",
+    "oxygen-ui-design-system",
+    "thunder-authentication"
+  ]
 }

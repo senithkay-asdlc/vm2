@@ -7,10 +7,30 @@
   "appPath": "ticket-intake-webapp",
   "entrypoint": "deployment/web-application",
   "exposure": "internet",
-  "dependencies": [
-    { "kind": "component", "name": "ticket-api", "description": "Submits a new ticket for triage." }
+  "stories": [
+    1
   ],
   "description": "Public, unauthenticated form customers use to submit a support ticket (name, email, subject, message). Confirms submission and has no further interaction with the customer. Does not show ticket status, history, or any triage/draft content — that is the Support Console's job.",
-  "stories": [1],
-  "skillsPinned": ["wireframes", "react-webapp", "oxygen-ui-design-system"]
+  "dependencies": [
+    {
+      "kind": "component",
+      "name": "ticket-api",
+      "description": "Submits a new ticket for triage.",
+      "wiring": {
+        "endpoint": {
+          "component": "vm2-ticket-api",
+          "name": "http",
+          "visibility": "project",
+          "envBindings": {
+            "address": "TICKET_API_URL"
+          }
+        }
+      }
+    }
+  ],
+  "skillsPinned": [
+    "wireframes",
+    "react-webapp",
+    "oxygen-ui-design-system"
+  ]
 }

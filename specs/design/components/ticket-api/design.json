@@ -7,12 +7,68 @@
   "appPath": "ticket-api",
   "entrypoint": "deployment/service",
   "exposure": "internet",
-  "dependencies": [
-    { "kind": "platform-resource", "name": "ticket-db", "resourceType": "postgres-cnpg" },
-    { "kind": "platform-resource", "name": "agent-auth", "resourceType": "thunder-app" },
-    { "kind": "external", "name": "ai-classification-service", "description": "Classifies a newly submitted ticket's urgency and generates its draft reply, synchronously on creation." }
+  "stories": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8
   ],
   "description": "Owns the Ticket entity end to end: accepts anonymous ticket submissions, calls the AI classification service to set urgency and generate a draft reply immediately on submission, and exposes the queue (list/filter/detail) and the edit/approve/resolve actions a signed-in Support Agent uses. Does not send replies to customers and does not manage agent accounts or roles.",
-  "stories": [1, 2, 3, 4, 5, 6, 7, 8],
-  "skillsPinned": ["openapi-conventions", "ballerina", "thunder-authentication", "api-management"]
+  "dependencies": [
+    {
+      "kind": "platform-resource",
+      "name": "ticket-db",
+      "resourceType": "postgres-cnpg",
+      "wiring": {
+        "ref": "vm2-ticket-db",
+        "envBindings": {
+          "dbname": "TICKET_DB_DBNAME",
+          "host": "TICKET_DB_HOST",
+          "password": "TICKET_DB_PASSWORD",
+          "port": "TICKET_DB_PORT",
+          "user": "TICKET_DB_USER"
+        }
+      }
+    },
+    {
+      "kind": "platform-resource",
+      "name": "agent-auth",
+      "resourceType": "thunder-app",
+      "wiring": {
+        "ref": "vm2-agent-auth",
+        "envBindings": {
+          "client_id": "AGENT_AUTH_CLIENT_ID",
+          "issuer": "AGENT_AUTH_ISSUER",
+          "jwks_url": "AGENT_AUTH_JWKS_URL",
+          "resource": "AGENT_AUTH_RESOURCE",
+          "scopes": "AGENT_AUTH_SCOPES"
+        }
+      }
+    },
+    {
+      "kind": "external",
+      "name": "ai-classification-service",
+      "description": "Classifies a newly submitted ticket's urgency and generates its draft reply, synchronously on creation.",
+      "wiring": {
+        "ref": "vm2-ai-classifica-ee62ace4",
+        "envBindings": {
+          "ANTHROPIC_API_KEY": "ANTHROPIC_API_KEY",
+          "ANTHROPIC_VERSION": "ANTHROPIC_VERSION"
+        }
+      }
+    }
+  ],
+  "exposesAPI": {
+    "auth": "end-user-required"
+  },
+  "skillsPinned": [
+    "openapi-conventions",
+    "ballerina",
+    "thunder-authentication",
+    "api-management"
+  ]
 }
