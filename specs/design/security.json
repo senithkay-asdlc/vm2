@@ -1,0 +1,31 @@
+{
+  "version": 3,
+  "permissions": [
+    {
+      "resource": "tickets",
+      "component": "ticket-api",
+      "description": "Support tickets, their AI triage results, and their reply drafts",
+      "actions": [
+        { "handle": "read-all", "description": "Every ticket in the queue, with its urgency and draft" },
+        { "handle": "edit-draft", "description": "Edit a ticket's drafted reply" },
+        { "handle": "approve", "description": "Approve a ticket's drafted reply" },
+        { "handle": "resolve", "description": "Mark a ticket resolved after the reply has been sent" }
+      ]
+    }
+  ],
+  "groups": [
+    { "name": "Support Agents", "description": "People who triage and respond to support tickets" }
+  ],
+  "roles": [
+    {
+      "name": "SupportAgent",
+      "description": "Reviews the ticket queue, edits and approves AI-drafted replies, and resolves tickets after sending them.",
+      "stories": [2, 3, 4, 5, 6, 7, 8],
+      "grants": ["tickets:read-all", "tickets:edit-draft", "tickets:approve", "tickets:resolve"],
+      "assignTo": ["Support Agents"]
+    }
+  ],
+  "testUsers": [
+    { "username": "test-supportagent", "roles": ["SupportAgent"] }
+  ]
+}

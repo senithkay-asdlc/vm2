@@ -1,0 +1,17 @@
+{
+  "name": "support-console-webapp",
+  "type": "web-application",
+  "version": "0.1.0",
+  "language": "TypeScript",
+  "buildpack": "docker",
+  "appPath": "support-console-webapp",
+  "entrypoint": "deployment/web-application",
+  "exposure": "internet",
+  "dependencies": [
+    { "kind": "component", "name": "ticket-api", "description": "Lists and filters the ticket queue, reads ticket detail, edits drafts, approves and resolves tickets." },
+    { "kind": "platform-resource", "name": "agent-auth", "resourceType": "thunder-app" }
+  ],
+  "description": "Signed-in Support Agent console: a prioritized, filterable ticket queue and a ticket detail view where an agent reviews the AI-classified urgency and AI-drafted reply, edits it, approves it, and marks the ticket resolved after sending the reply themselves outside the system. Does not send replies to customers and does not manage agents or teams.",
+  "stories": [2, 3, 4, 5, 6, 7, 8],
+  "skillsPinned": ["wireframes", "react-webapp", "oxygen-ui-design-system", "thunder-authentication"]
+}

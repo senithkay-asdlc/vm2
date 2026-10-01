@@ -1,0 +1,16 @@
+{
+  "name": "ticket-intake-webapp",
+  "type": "web-application",
+  "version": "0.1.0",
+  "language": "TypeScript",
+  "buildpack": "docker",
+  "appPath": "ticket-intake-webapp",
+  "entrypoint": "deployment/web-application",
+  "exposure": "internet",
+  "dependencies": [
+    { "kind": "component", "name": "ticket-api", "description": "Submits a new ticket for triage." }
+  ],
+  "description": "Public, unauthenticated form customers use to submit a support ticket (name, email, subject, message). Confirms submission and has no further interaction with the customer. Does not show ticket status, history, or any triage/draft content — that is the Support Console's job.",
+  "stories": [1],
+  "skillsPinned": ["wireframes", "react-webapp", "oxygen-ui-design-system"]
+}

@@ -1,0 +1,20 @@
+title Support Ticket Triage
+
+component ticket-intake-webapp as "Ticket Intake" web-application
+component support-console-webapp as "Support Console" web-application
+component ticket-api as "Ticket API" service
+component ticket-db as "Ticket Database" database
+
+east agent-auth as "Thunder Auth" identity-server
+south ai-classification-service as "AI Classification Service" service
+
+north -> ticket-intake-webapp
+north -> support-console-webapp
+north -> ticket-api
+
+ticket-intake-webapp -> ticket-api
+support-console-webapp -> ticket-api
+support-console-webapp -> agent-auth
+ticket-api -> agent-auth
+ticket-api -> ticket-db
+ticket-api -> ai-classification-service

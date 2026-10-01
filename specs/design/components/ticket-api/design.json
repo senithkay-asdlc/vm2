@@ -1,0 +1,18 @@
+{
+  "name": "ticket-api",
+  "type": "service",
+  "version": "0.1.0",
+  "language": "Ballerina",
+  "buildpack": "docker",
+  "appPath": "ticket-api",
+  "entrypoint": "deployment/service",
+  "exposure": "internet",
+  "dependencies": [
+    { "kind": "platform-resource", "name": "ticket-db", "resourceType": "postgres-cnpg" },
+    { "kind": "platform-resource", "name": "agent-auth", "resourceType": "thunder-app" },
+    { "kind": "external", "name": "ai-classification-service", "description": "Classifies a newly submitted ticket's urgency and generates its draft reply, synchronously on creation." }
+  ],
+  "description": "Owns the Ticket entity end to end: accepts anonymous ticket submissions, calls the AI classification service to set urgency and generate a draft reply immediately on submission, and exposes the queue (list/filter/detail) and the edit/approve/resolve actions a signed-in Support Agent uses. Does not send replies to customers and does not manage agent accounts or roles.",
+  "stories": [1, 2, 3, 4, 5, 6, 7, 8],
+  "skillsPinned": ["openapi-conventions", "ballerina", "thunder-authentication", "api-management"]
+}
