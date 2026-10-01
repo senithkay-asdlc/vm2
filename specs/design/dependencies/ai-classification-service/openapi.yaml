@@ -1,0 +1,92 @@
+openapi: 3.0.3
+info:
+  title: Anthropic Messages API
+  version: "2023-06-01"
+  description: >
+    Derived from Anthropic's own developer reference, covering only the
+    operation this design calls: sending a ticket's text to Claude and
+    getting back a completion used to classify urgency and draft a reply.
+servers:
+  - url: https://api.anthropic.com
+components:
+  securitySchemes:
+    apiKey:
+      type: apiKey
+      in: header
+      name: x-api-key
+  schemas:
+    Message:
+      type: object
+      required: [role, content]
+      properties:
+        role: { type: string, enum: [user, assistant] }
+        content: { type: string }
+    CreateMessageRequest:
+      type: object
+      required: [model, max_tokens, messages]
+      properties:
+        model: { type: string, description: "Claude model id, e.g. claude-3-5-sonnet-latest" }
+        max_tokens: { type: integer, description: "Maximum tokens to generate" }
+        system: { type: string, description: "System prompt instructing the classification/drafting task" }
+        messages:
+          type: array
+          items: { $ref: '#/components/schemas/Message' }
+    ContentBlock:
+      type: object
+      properties:
+        type: { type: string }
+        text: { type: string }
+    CreateMessageResponse:
+      type: object
+      required: [id, role, content]
+      properties:
+        id: { type: string }
+        role: { type: string }
+        content:
+          type: array
+          items: { $ref: '#/components/schemas/ContentBlock' }
+        stop_reason: { type: string, nullable: true }
+    Error:
+      type: object
+      required: [type, error]
+      properties:
+        type: { type: string }
+        error:
+          type: object
+          properties:
+            type: { type: string }
+            message: { type: string }
+security:
+  - apiKey: []
+paths:
+  /v1/messages:
+    post:
+      operationId: createMessage
+      summary: Send ticket text to Claude and get a completion back
+      x-aep-source: https://docs.anthropic.com/en/api/messages
+      parameters:
+        - name: anthropic-version
+          in: header
+          required: true
+          schema: { type: string, default: "2023-06-01" }
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/CreateMessageRequest' }
+      responses:
+        '200':
+          description: The model's completion
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/CreateMessageResponse' }
+        '400':
+          description: Invalid request
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/Error' }
+        '401':
+          description: Invalid API key
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/Error' }

@@ -2,11 +2,13 @@
   "name": "ai-classification-service",
   "resource": {
     "name": "ai-classification-service",
-    "description": "Classifies an incoming ticket's urgency (Low/Medium/High/Urgent) and drafts a reply for a Support Agent to review."
+    "description": "Classifies an incoming ticket's urgency (Low/Medium/High/Urgent) and drafts a reply for a Support Agent to review.",
+    "provider": "Anthropic",
+    "config": [
+      { "key": "ANTHROPIC_API_KEY", "secret": true, "description": "Your Anthropic API key, from the Anthropic Console" },
+      { "key": "ANTHROPIC_VERSION", "defaultValue": "2023-06-01", "description": "Anthropic API version header value" }
+    ],
+    "contract": { "type": "openapi", "path": "openapi.yaml", "origin": "derived" }
   },
-  "suggestions": [
-    { "name": "OpenAI", "description": "GPT models via a straightforward REST API; widely used for text classification and drafting." },
-    { "name": "Anthropic Claude", "description": "Claude models via a REST API; strong at following instruction-style drafting prompts." },
-    { "name": "Azure OpenAI Service", "description": "OpenAI models hosted on Azure, for organizations that need them inside an existing Azure tenant." }
-  ]
+  "provenance": { "sourceUrl": "https://docs.anthropic.com/en/api/messages" }
 }
