@@ -1,0 +1,28 @@
+apiVersion: openchoreo.dev/v1alpha1
+metadata:
+  name: support-console-webapp
+
+endpoints:
+  - name: http
+    type: HTTP
+    port: 9090
+    basePath: /
+    visibility:
+      - project
+      - external
+
+dependencies:
+  endpoints:
+    - component: vm2-ticket-api
+      name: http
+      visibility: project
+      envBindings:
+        address: TICKET_API_URL
+  resources:
+    - ref: vm2-agent-auth
+      envBindings:
+        client_id: AGENT_AUTH_CLIENT_ID
+        issuer: AGENT_AUTH_ISSUER
+        jwks_url: AGENT_AUTH_JWKS_URL
+        resource: AGENT_AUTH_RESOURCE
+        scopes: AGENT_AUTH_SCOPES
