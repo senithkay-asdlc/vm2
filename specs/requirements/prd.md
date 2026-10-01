@@ -29,8 +29,10 @@ A support triage agent that reads every incoming ticket, classifies its urgency,
 - **Sign-in**: Support agents sign in via SSO through Thunder, the platform IDP (org default). Customers do not sign in — ticket submission is anonymous/self-service through the public form.
 - **Ticket intake**: Tickets are submitted through a built-in form provided by this product; there is no integration with an external helpdesk tool.
 - **Reply delivery**: The system never sends a reply itself. An approved draft is handed to the Support Agent, who sends it manually through whatever channel they already use (email, the helpdesk, etc.) and then marks the ticket resolved here.
-- **Urgency levels**: Tickets are classified into four levels — Low, Medium, High, Urgent. *assumed*
-- **Classification &amp; drafting**: An AI component classifies each incoming ticket's urgency and generates its draft reply automatically on submission, before any agent looks at it. *assumed*
+- **Urgency levels**: Tickets are classified into four levels — Low, Medium, High, Urgent.
+- **Classification &amp; drafting**: An AI component classifies each incoming ticket's urgency and generates its draft reply automatically and immediately on submission, before any agent looks at it.
+- **Agent notifications**: Agents are not notified of new or urgent tickets by email or any other channel; they are expected to check the in-app queue themselves.
+- **Ticket ownership**: There is no per-agent assignment — all tickets sit in one shared queue, and any Support Agent may act on any ticket.
 
 ## Out of Scope
 
@@ -41,8 +43,7 @@ A support triage agent that reads every incoming ticket, classifies its urgency,
 
 ## Open Questions
 
-1. Should Support Agents receive a notification (e.g. email) when a new Urgent ticket arrives, or is the in-app queue the only place urgency surfaces?
-2. Can any Support Agent see and act on every ticket, or should tickets be assigned to a specific agent?
+None.
 
 ## Further Notes
 
