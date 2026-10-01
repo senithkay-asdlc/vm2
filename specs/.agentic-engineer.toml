@@ -1,0 +1,4 @@
+apiVersion = "agentic-engineer/v1"
+name = "vm2"
+createdAt = "2026-10-01T09:47:36Z"
+idea = "A support triage agent that reads incoming tickets, classifies them by urgency, and drafts replies for a human to approve"
